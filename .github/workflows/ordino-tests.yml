@@ -22,6 +22,8 @@ jobs:
         shardIndex: [ 1, 2 ]
     env:
       BASE_URL: ${{ vars.BASE_URL }}
+      LOGIN_EMAIL: ${{ secrets.LOGIN_EMAIL }}
+      LOGIN_PASSWORD: ${{ secrets.LOGIN_PASSWORD }}
       WORKERS: ${{ vars.WORKERS || '1' }}
       RETRIES: ${{ vars.RETRIES || '1' }}
     steps:

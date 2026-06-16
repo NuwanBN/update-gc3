@@ -1,1 +1,32 @@
-{}
+{
+  "/login#textbox:E-mail address": {
+    "selector": "//input[@id=\"email\"]",
+    "strategy": "attr_combo",
+    "last_validated": "2026-06-16T00:00:00.000Z",
+    "ref_count": 1
+  },
+  "/login#textbox:Password": {
+    "selector": "//input[@id=\"password\"]",
+    "strategy": "attr_combo",
+    "last_validated": "2026-06-16T00:00:00.000Z",
+    "ref_count": 1
+  },
+  "/login#button:Login": {
+    "selector": "//button[@id=\"login\"]",
+    "strategy": "attr_combo",
+    "last_validated": "2026-06-16T00:00:00.000Z",
+    "ref_count": 1
+  },
+  "/#link:Home": {
+    "selector": "//a[normalize-space()=\"Home\" and @href=\"/\"]",
+    "strategy": "attr_combo",
+    "last_validated": "2026-06-16T00:00:00.000Z",
+    "ref_count": 1
+  },
+  "/#heading:Welcome,": {
+    "selector": "//h3[normalize-space()=\"Welcome,\"]",
+    "strategy": "attr_combo",
+    "last_validated": "2026-06-16T00:00:00.000Z",
+    "ref_count": 1
+  }
+}

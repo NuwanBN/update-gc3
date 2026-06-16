@@ -1,1 +1,7 @@
-{}
+{
+  "login": {
+    "story": ".ordino/stories/login.story.md",
+    "acceptanceCriteria": ["AC-1"],
+    "spec": "tests/login.spec.ts"
+  }
+}
