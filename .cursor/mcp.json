@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "Ordino": {
+      "url": "http://127.0.0.1:9223/mcp"
+    }
+  }
+}
