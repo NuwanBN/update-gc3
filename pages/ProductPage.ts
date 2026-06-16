@@ -56,9 +56,19 @@ export class ProductPage extends BasePage {
   // locator-helper: attr_combo
   private successToast = this.page.locator('//li[contains(@class,"toast")][contains(.,"Product created successfully")]');
 
+  // locator-helper: attr_combo
+  private deleteConfirmButton = this.page.locator('//button[@id="remove-product-confirmation-confirm-button"]');
+
   // locator-helper: dyn_param
   private productRow(name: string): Locator {
     return this.page.locator(`//div[contains(@class,"table-last-row-border-none")][.//*[normalize-space()="${name}"]]`);
+  }
+
+  // locator-helper: dyn_param — kebab dropdown button in the row containing the product name
+  private productRowDropdown(name: string): Locator {
+    return this.page.locator(
+      `//div[contains(@class,"table-last-row-border-none")][.//*[normalize-space()="${name}"]]//*[@data-cy[contains(.,"product-table-dropdown")]]`
+    );
   }
 
   // ── Steps ──────────────────────────────────────────────────────────────
@@ -184,6 +194,27 @@ export class ProductPage extends BasePage {
     await expect(this.successToast).toContainText(productName);
     await this.productRow(productName).waitFor({ state: 'visible', timeout: 15000 });
     await expect(this.productRow(productName)).toBeVisible();
+    return this;
+  }
+
+  /**
+   * Deletes the product by name via the row kebab menu → Delete → Remove confirmation.
+   * Navigates to the products list first if not already there.
+   * @param productName - Name of the product to delete
+   * @returns this for chaining
+   */
+  async step_deleteProduct(productName: string): Promise<this> {
+    if (!this.page.url().includes('/menu-management-gc3/products')) {
+      await this.page.goto(this.path, { waitUntil: 'domcontentloaded' });
+      await this.waitForPageLoad();
+    }
+    await this.productRow(productName).waitFor({ state: 'visible', timeout: 15000 });
+    await this.productRowDropdown(productName).click();
+    await this.page.locator('[role="menuitem"]').filter({ hasText: 'Delete' }).first().waitFor({ state: 'visible', timeout: 5000 });
+    await this.page.locator('[role="menuitem"]').filter({ hasText: 'Delete' }).first().click();
+    await this.deleteConfirmButton.waitFor({ state: 'visible', timeout: 5000 });
+    await this.deleteConfirmButton.click();
+    await this.productRow(productName).waitFor({ state: 'hidden', timeout: 10000 });
     return this;
   }
 }

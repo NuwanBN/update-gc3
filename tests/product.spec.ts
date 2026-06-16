@@ -24,6 +24,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
+    await productPage.step_deleteProduct(name);
   });
 
   // scenario: Extended Overview
@@ -43,6 +44,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
+    await productPage.step_deleteProduct(name);
   });
 
   // scenario: Nutritional Info
@@ -61,6 +63,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
+    await productPage.step_deleteProduct(name);
   });
 
   // scenario: Inactive Status
@@ -79,6 +82,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
+    await productPage.step_deleteProduct(name);
   });
 
   // scenario: Price Excludes Tax
@@ -97,6 +101,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
+    await productPage.step_deleteProduct(name);
   });
 
   // scenario: Nutritional Classification
@@ -115,6 +120,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
+    await productPage.step_deleteProduct(name);
   });
 
   // scenario: Allergen
@@ -133,6 +139,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
+    await productPage.step_deleteProduct(name);
   });
 
   // scenario: Tag
@@ -151,6 +158,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
+    await productPage.step_deleteProduct(name);
   });
 
 });
