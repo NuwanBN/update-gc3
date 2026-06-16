@@ -5,17 +5,23 @@ import { modifiergroupExpected as expected } from '@config/page-loader';
 test.describe('modifiergroup', () => {
 
   let createdModifierGroupName = '';
+  let createdProductName = '';
 
   test.beforeEach(async ({ loginPage }) => {
     createdModifierGroupName = '';
+    createdProductName = '';
     await loginPage.step_navigate();
     await loginPage.step_login(process.env.LOGIN_EMAIL!, process.env.LOGIN_PASSWORD!);
   });
 
-  test.afterEach(async ({ modifierGroupPage }) => {
+  test.afterEach(async ({ modifierGroupPage, productPage }) => {
     if (createdModifierGroupName) {
       await modifierGroupPage.step_navigate();
       await modifierGroupPage.step_delete(createdModifierGroupName);
+    }
+    if (createdProductName) {
+      await productPage.step_navigate();
+      await productPage.step_deleteProduct(createdProductName);
     }
   });
 
@@ -65,6 +71,35 @@ test.describe('modifiergroup', () => {
     await modifierGroupPage.step_submit();
     await modifierGroupPage.verify_created(name);
     createdModifierGroupName = name;
+  });
+
+  // scenario: Product Modifier Group – With Product Modifier
+  test('[AC-4] should create a Product Modifier Group with a product added as a modifier', async ({ productPage, modifierGroupPage }) => {
+    const ts = Date.now();
+    const productName = `Auto Mod Prod ${ts}`;
+    const mgName = `Auto PMG With Prod ${ts}`;
+    const mgDisplayName = `Auto PMG With Prod Display ${ts}`;
+
+    // Create the product first
+    await productPage.step_navigate();
+    await productPage.step_openCreateForm();
+    await productPage.step_fillProductDetails({
+      name: productName,
+      displayName: `${productName} Display`,
+      price: '10',
+    });
+    await productPage.step_submitProduct();
+    await productPage.verify_productCreated(productName);
+    createdProductName = productName;
+
+    // Create the modifier group and add the product as a modifier
+    await modifierGroupPage.step_navigate();
+    await modifierGroupPage.step_openCreateForm('product');
+    await modifierGroupPage.step_fillDetails({ name: mgName, displayName: mgDisplayName });
+    await modifierGroupPage.step_addProductModifier(productName);
+    await modifierGroupPage.step_submit();
+    await modifierGroupPage.verify_created(mgName);
+    createdModifierGroupName = mgName;
   });
 
 });

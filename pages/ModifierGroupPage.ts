@@ -39,6 +39,17 @@ export class ModifierGroupPage extends BasePage {
   private textModifierNameInput = this.page.locator('//input[@id="undefined-modifier-name-translation-input"]');
   // locator-helper: attr_combo – save button inside the modifier dialog
   private textModifierSaveButton = this.page.locator('//button[@id="undefined-save-button"]');
+  // locator-helper: attr_combo – search input in the "Select Products" dialog
+  private productModifierSearchInput = this.page.locator('//input[@placeholder="Enter product name..."]');
+  // locator-helper: text – confirms product selection in the "Select Products" dialog
+  private addModifiersConfirmButton = this.page.locator('//*[@role="dialog"]//button[normalize-space()="Add Modifiers"]');
+
+  // locator-helper: dyn_param – product row checkbox inside the "Select Products" dialog
+  private productModifierRowCheckbox(productName: string): Locator {
+    return this.page.locator(
+      `//div[contains(@class,"table-last-row-border-none")][.//*[contains(normalize-space(),"${productName}")]]//*[@data-cy[contains(.,"product-table-select-") and not(contains(.,"select-all"))]]`
+    );
+  }
 
   // locator-helper: dyn_param
   private modifierGroupRow(name: string): Locator {
@@ -112,6 +123,24 @@ export class ModifierGroupPage extends BasePage {
     await expect(this.textModifierSaveButton).toBeEnabled({ timeout: 8000 });
     await this.textModifierSaveButton.click();
     await this.textModifierNameInput.waitFor({ state: 'hidden', timeout: 8000 });
+    await expect(this.createButton).toBeEnabled({ timeout: 10000 });
+    return this;
+  }
+
+  /**
+   * Opens the "Select Products" dialog, searches for the product by name,
+   * selects it via its row checkbox, and confirms with "Add Modifiers".
+   * Required for Product Modifier Groups when you want a product as a modifier.
+   */
+  async step_addProductModifier(productName: string): Promise<this> {
+    await this.page.locator('//button[@id="create-modifier-button"]').click();
+    await this.productModifierSearchInput.waitFor({ state: 'visible', timeout: 8000 });
+    await this.productModifierSearchInput.fill(productName);
+    await this.productModifierRowCheckbox(productName).waitFor({ state: 'visible', timeout: 15000 });
+    await this.productModifierRowCheckbox(productName).click({ force: true });
+    await this.addModifiersConfirmButton.waitFor({ state: 'visible', timeout: 5000 });
+    await this.addModifiersConfirmButton.click();
+    await this.productModifierSearchInput.waitFor({ state: 'hidden', timeout: 8000 });
     await expect(this.createButton).toBeEnabled({ timeout: 10000 });
     return this;
   }

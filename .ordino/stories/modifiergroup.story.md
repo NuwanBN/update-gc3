@@ -18,6 +18,7 @@ Verifies that an authenticated user can create modifier groups under Menu Manage
 - [ ] AC-1: User can create a Product Modifier Group with mandatory name and display name
 - [ ] AC-2: User can create a Text Modifier Group with mandatory name and display name
 - [ ] AC-3: User can create a Product Modifier Group with description and external ID filled
+- [ ] AC-4: User can create a Product Modifier Group with a product added as a modifier
 
 # Scenarios
 
@@ -46,6 +47,16 @@ Verifies that an authenticated user can create modifier groups under Menu Manage
 - User fills mandatory fields plus Description and External ID
 - User submits the form and the modifier group is created successfully
 
+## Product Modifier Group – With Product Modifier [AC-4]
+
+- User is logged in and has an existing product in the system
+- User creates a new Product Modifier Group with mandatory name and display name
+- User clicks "Add Modifier" and searches for the product by name
+- User selects the product via its row checkbox and clicks "Add Modifiers" to confirm
+- User submits the form
+- A success message appears and the new modifier group is listed
+- Cleanup: the modifier group and the product are deleted after the test
+
 # Out of Scope
 
 - Adding modifiers to the group (requires existing products)
@@ -57,3 +68,4 @@ Verifies that an authenticated user can create modifier groups under Menu Manage
 # Change Log
 
 - 2026-06-16: created for modifier group automation (user request)
+- 2026-06-16: added AC-4 Product MG with product as modifier
