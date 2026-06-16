@@ -17,10 +17,47 @@ test.describe('product', () => {
 
     await productPage.step_navigate();
     await productPage.step_openCreateForm();
-    await productPage.step_fillMandatoryDetails({
+    await productPage.step_fillProductDetails({
       name,
       displayName,
       price: expected.defaultPrice,
+    });
+    await productPage.step_submitProduct();
+    await productPage.verify_productCreated(name);
+  });
+
+  // scenario: Extended Overview
+  test('[AC-2] should create a product with description and external ID', async ({ productPage }) => {
+    const ts = Date.now();
+    const name = `Auto Extended Product ${ts}`;
+    const displayName = `Auto Extended Display ${ts}`;
+
+    await productPage.step_navigate();
+    await productPage.step_openCreateForm();
+    await productPage.step_fillProductDetails({
+      name,
+      displayName,
+      price: expected.extendedPrice,
+      description: `${expected.descriptionPrefix} ${ts}`,
+      externalId: `${expected.externalIdPrefix}-${ts}`,
+    });
+    await productPage.step_submitProduct();
+    await productPage.verify_productCreated(name);
+  });
+
+  // scenario: Nutritional Info
+  test('[AC-3] should create a product with calories filled', async ({ productPage }) => {
+    const ts = Date.now();
+    const name = `Auto Nutrition Product ${ts}`;
+    const displayName = `Auto Nutrition Display ${ts}`;
+
+    await productPage.step_navigate();
+    await productPage.step_openCreateForm();
+    await productPage.step_fillProductDetails({
+      name,
+      displayName,
+      price: expected.defaultPrice,
+      calories: expected.defaultCalories,
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);

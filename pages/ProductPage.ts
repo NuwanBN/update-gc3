@@ -6,6 +6,9 @@ export type ProductDetails = {
   name: string;
   displayName: string;
   price: string;
+  description?: string;
+  externalId?: string;
+  calories?: string;
 };
 
 export class ProductPage extends BasePage {
@@ -19,7 +22,15 @@ export class ProductPage extends BasePage {
   // locator-helper: attr_combo
   private productDisplayNameInput = this.page.locator('//input[@id="product-overview-display-name-input"]');
   // locator-helper: attr_combo
+  private productDescriptionInput = this.page.locator('//textarea[@id="product-overview-description-input-input"]');
+  // locator-helper: attr_combo
+  private productExternalIdInput = this.page.locator('//input[@id="product-overview-external-id-input"]');
+  // locator-helper: attr_combo
   private priceInput = this.page.locator('//input[@id="enter-price-input-input"]');
+  // locator-helper: attr_combo
+  private nutritionalInfoTab = this.page.locator('//button[contains(normalize-space(.),"Nutritional Info")]');
+  // locator-helper: attr_combo
+  private caloriesInput = this.page.locator('//input[@id="input-field-input"]');
   // locator-helper: attr_combo
   private createProductButton = this.page.locator('//button[@id="create-product-button"]');
   // locator-helper: attr_combo
@@ -42,7 +53,7 @@ export class ProductPage extends BasePage {
   }
 
   /**
-   * Opens the Create New product form from the products list.
+   * Opens the Create New product form.
    * @returns this for chaining
    */
   async step_openCreateForm(): Promise<this> {
@@ -52,19 +63,43 @@ export class ProductPage extends BasePage {
   }
 
   /**
-   * Fills mandatory product details on the create form.
-   * @param details - Product name, display name, and price
+   * Types into a React-controlled input field.
+   * @param locator - Target input locator
+   * @param value - Text value to enter
    * @returns this for chaining
    */
-  async step_fillMandatoryDetails(details: ProductDetails): Promise<this> {
-    await this.productNameInput.click();
-    await this.productNameInput.pressSequentially(details.name, { delay: 20 });
-    await this.productDisplayNameInput.click();
-    await this.productDisplayNameInput.pressSequentially(details.displayName, { delay: 20 });
+  private async typeIntoField(locator: Locator, value: string): Promise<void> {
+    await locator.click();
+    await locator.pressSequentially(value, { delay: 20 });
+  }
+
+  /**
+   * Fills product details on the create form (mandatory and optional fields).
+   * @param details - Product field values to enter
+   * @returns this for chaining
+   */
+  async step_fillProductDetails(details: ProductDetails): Promise<this> {
+    await this.typeIntoField(this.productNameInput, details.name);
+    await this.typeIntoField(this.productDisplayNameInput, details.displayName);
+
+    if (details.description) {
+      await this.productDescriptionInput.fill(details.description);
+    }
+
+    if (details.externalId) {
+      await this.typeIntoField(this.productExternalIdInput, details.externalId);
+    }
+
     await this.priceInput.scrollIntoViewIfNeeded();
-    await this.priceInput.click();
-    await this.priceInput.pressSequentially(details.price, { delay: 20 });
+    await this.typeIntoField(this.priceInput, details.price);
     await this.priceInput.press('Tab');
+
+    if (details.calories) {
+      await this.nutritionalInfoTab.click();
+      await this.caloriesInput.waitFor({ state: 'visible', timeout: 10000 });
+      await this.typeIntoField(this.caloriesInput, details.calories);
+    }
+
     await expect(this.createProductButton).toBeEnabled({ timeout: 15000 });
     return this;
   }

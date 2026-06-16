@@ -11,11 +11,13 @@ source:
 
 # Intent
 
-Verifies that an authenticated user can create a new product under Menu Management GC3 by filling all mandatory fields.
+Verifies that an authenticated user can create a new product under Menu Management GC3 with mandatory and optional fields.
 
 # Acceptance Criteria
 
 - [ ] AC-1: User can create a product with mandatory name, display name, and price
+- [ ] AC-2: User can create a product with description and external ID filled
+- [ ] AC-3: User can create a product with nutritional calories filled
 
 # Scenarios
 
@@ -28,9 +30,21 @@ Verifies that an authenticated user can create a new product under Menu Manageme
 - User submits the form
 - A success message appears and the new product is listed
 
+## Extended Overview [AC-2]
+
+- User is logged in and opens the create product form
+- User fills mandatory fields plus Product Description and External ID
+- User submits and the product is created successfully
+
+## Nutritional Info [AC-3]
+
+- User is logged in and opens the create product form
+- User fills mandatory fields and navigates to Nutritional Info to enter Calories
+- User submits and the product is created successfully
+
 # Out of Scope
 
-- Category selection
+- Category selection (dropdown options unavailable in test env)
 - Modifier groups, tags, custom fields
 - Image upload
 - Edit or delete product
@@ -38,3 +52,4 @@ Verifies that an authenticated user can create a new product under Menu Manageme
 # Change Log
 
 - 2026-06-16: created for product creation automation (user request)
+- 2026-06-16: added AC-2 extended overview and AC-3 nutritional info coverage

@@ -1,4 +1,8 @@
 {
   "successTitle": "Product created successfully",
-  "defaultPrice": "10"
+  "defaultPrice": "10",
+  "extendedPrice": "15",
+  "defaultCalories": "250",
+  "descriptionPrefix": "Automated test description",
+  "externalIdPrefix": "EXT"
 }
