@@ -1,0 +1,6 @@
+{
+  "successTitle": "Modifier group created successfully",
+  "descriptionPrefix": "Automated MG description",
+  "externalIdPrefix": "MG-EXT",
+  "defaultTextModifierName": "Option A"
+}
