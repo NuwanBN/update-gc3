@@ -63,4 +63,40 @@ test.describe('product', () => {
     await productPage.verify_productCreated(name);
   });
 
+  // scenario: Inactive Status
+  test('[AC-4] should create a product with status set to inactive', async ({ productPage }) => {
+    const ts = Date.now();
+    const name = `Auto Inactive Product ${ts}`;
+    const displayName = `Auto Inactive Display ${ts}`;
+
+    await productPage.step_navigate();
+    await productPage.step_openCreateForm();
+    await productPage.step_fillProductDetails({
+      name,
+      displayName,
+      price: expected.defaultPrice,
+      statusActive: false,
+    });
+    await productPage.step_submitProduct();
+    await productPage.verify_productCreated(name);
+  });
+
+  // scenario: Price Excludes Tax
+  test('[AC-5] should create a product with Price Excludes Tax selected', async ({ productPage }) => {
+    const ts = Date.now();
+    const name = `Auto ExTax Product ${ts}`;
+    const displayName = `Auto ExTax Display ${ts}`;
+
+    await productPage.step_navigate();
+    await productPage.step_openCreateForm();
+    await productPage.step_fillProductDetails({
+      name,
+      displayName,
+      price: expected.defaultPrice,
+      priceExcludesTax: true,
+    });
+    await productPage.step_submitProduct();
+    await productPage.verify_productCreated(name);
+  });
+
 });

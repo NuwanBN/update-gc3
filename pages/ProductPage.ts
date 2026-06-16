@@ -9,6 +9,10 @@ export type ProductDetails = {
   description?: string;
   externalId?: string;
   calories?: string;
+  /** Set to false to mark the product as inactive before submitting. Defaults to active (true). */
+  statusActive?: boolean;
+  /** Set to true to select "Price Excludes Tax" instead of the default "Price Includes Tax". */
+  priceExcludesTax?: boolean;
 };
 
 export class ProductPage extends BasePage {
@@ -31,6 +35,10 @@ export class ProductPage extends BasePage {
   private nutritionalInfoTab = this.page.locator('//button[contains(normalize-space(.),"Nutritional Info")]');
   // locator-helper: attr_combo
   private caloriesInput = this.page.locator('//input[@id="input-field-input"]');
+  // locator-helper: attr_combo
+  private statusToggle = this.page.locator('//button[@id="product-overview-status"]');
+  // locator-helper: attr_combo
+  private priceExcludesTaxRadio = this.page.locator('//button[@id="horizontal-2"]');
   // locator-helper: attr_combo
   private createProductButton = this.page.locator('//button[@id="create-product-button"]');
   // locator-helper: attr_combo
@@ -98,6 +106,18 @@ export class ProductPage extends BasePage {
       await this.nutritionalInfoTab.click();
       await this.caloriesInput.waitFor({ state: 'visible', timeout: 10000 });
       await this.typeIntoField(this.caloriesInput, details.calories);
+    }
+
+    if (details.statusActive === false) {
+      const ariaChecked = await this.statusToggle.getAttribute('aria-checked');
+      if (ariaChecked === 'true') {
+        await this.statusToggle.click();
+      }
+    }
+
+    if (details.priceExcludesTax === true) {
+      await this.priceExcludesTaxRadio.scrollIntoViewIfNeeded();
+      await this.priceExcludesTaxRadio.click();
     }
 
     await expect(this.createProductButton).toBeEnabled({ timeout: 15000 });
