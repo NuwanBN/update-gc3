@@ -4,9 +4,18 @@ import { productExpected as expected } from '@config/page-loader';
 
 test.describe('product', () => {
 
+  let createdProductName = '';
+
   test.beforeEach(async ({ loginPage }) => {
+    createdProductName = '';
     await loginPage.step_navigate();
     await loginPage.step_login(process.env.LOGIN_EMAIL!, process.env.LOGIN_PASSWORD!);
+  });
+
+  test.afterEach(async ({ productPage }) => {
+    if (createdProductName) {
+      await productPage.step_deleteProduct(createdProductName);
+    }
   });
 
   // scenario: Happy Path
@@ -24,7 +33,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
-    await productPage.step_deleteProduct(name);
+    createdProductName = name;
   });
 
   // scenario: Extended Overview
@@ -44,7 +53,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
-    await productPage.step_deleteProduct(name);
+    createdProductName = name;
   });
 
   // scenario: Nutritional Info
@@ -63,7 +72,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
-    await productPage.step_deleteProduct(name);
+    createdProductName = name;
   });
 
   // scenario: Inactive Status
@@ -82,7 +91,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
-    await productPage.step_deleteProduct(name);
+    createdProductName = name;
   });
 
   // scenario: Price Excludes Tax
@@ -101,7 +110,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
-    await productPage.step_deleteProduct(name);
+    createdProductName = name;
   });
 
   // scenario: Nutritional Classification
@@ -120,7 +129,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
-    await productPage.step_deleteProduct(name);
+    createdProductName = name;
   });
 
   // scenario: Allergen
@@ -139,7 +148,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
-    await productPage.step_deleteProduct(name);
+    createdProductName = name;
   });
 
   // scenario: Tag
@@ -158,7 +167,7 @@ test.describe('product', () => {
     });
     await productPage.step_submitProduct();
     await productPage.verify_productCreated(name);
-    await productPage.step_deleteProduct(name);
+    createdProductName = name;
   });
 
 });

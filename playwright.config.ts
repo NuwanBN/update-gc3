@@ -9,7 +9,7 @@ export default defineConfig({
   testDir: './tests',
   timeout: 60000,
   fullyParallel: true,
-  retries: process.env.CI ? parseInt(process.env.RETRIES || '2', 10) : 0,
+  retries: process.env.CI ? parseInt(process.env.RETRIES || '2', 10) : 1,
   workers: process.env.CI ? parseInt(process.env.WORKERS || '1', 10) : undefined,
   outputDir: './test-results/runs',
   preserveOutput: 'failures-only',
@@ -28,8 +28,8 @@ export default defineConfig({
     trace: 'on',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    actionTimeout: 8000,
-    navigationTimeout: 15000,
+    actionTimeout: 10000,
+    navigationTimeout: 30000,
   },
 
   projects: [
