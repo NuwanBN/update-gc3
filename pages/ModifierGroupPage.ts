@@ -96,6 +96,7 @@ export class ModifierGroupPage extends BasePage {
     await this.typeIntoField(this.nameInput, details.name);
     await this.nameInput.press('Tab');
 
+    await this.displayNameInput.clear();
     await this.typeIntoField(this.displayNameInput, details.displayName);
     await this.displayNameInput.press('Tab');
 

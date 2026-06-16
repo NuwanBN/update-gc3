@@ -123,6 +123,7 @@ export class ProductPage extends BasePage {
    */
   async step_fillProductDetails(details: ProductDetails): Promise<this> {
     await this.typeIntoField(this.productNameInput, details.name);
+    await this.productDisplayNameInput.clear();
     await this.typeIntoField(this.productDisplayNameInput, details.displayName);
 
     if (details.description) {
