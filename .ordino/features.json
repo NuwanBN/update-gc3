@@ -1,7 +1,12 @@
 {
   "login": {
     "story": ".ordino/stories/login.story.md",
-    "acceptanceCriteria": ["AC-1"],
+    "acceptanceCriteria": ["AC-1", "AC-2", "AC-3"],
     "spec": "tests/login.spec.ts"
+  },
+  "product": {
+    "story": ".ordino/stories/product.story.md",
+    "acceptanceCriteria": ["AC-1"],
+    "spec": "tests/product.spec.ts"
   }
 }
