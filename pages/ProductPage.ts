@@ -13,6 +13,12 @@ export type ProductDetails = {
   statusActive?: boolean;
   /** Set to true to select "Price Excludes Tax" instead of the default "Price Includes Tax". */
   priceExcludesTax?: boolean;
+  /** Nutritional classification label to select (e.g. "Gluten Free"). */
+  classification?: string;
+  /** Allergen label to select (e.g. "Celery"). */
+  allergen?: string;
+  /** Tag label to select. */
+  tag?: string;
 };
 
 export class ProductPage extends BasePage {
@@ -35,6 +41,12 @@ export class ProductPage extends BasePage {
   private nutritionalInfoTab = this.page.locator('//button[contains(normalize-space(.),"Nutritional Info")]');
   // locator-helper: attr_combo
   private caloriesInput = this.page.locator('//input[@id="input-field-input"]');
+  // locator-helper: attr_combo
+  private classificationsInput = this.page.locator('//input[@id="product-nutritional-classifications-search-input"]');
+  // locator-helper: attr_combo
+  private allergensInput = this.page.locator('//input[@id="product-nutritional-allergens-search-input"]');
+  // locator-helper: attr_combo
+  private tagsInput = this.page.locator('//input[@id="modifier-group-tags-search-input"]');
   // locator-helper: attr_combo
   private statusToggle = this.page.locator('//button[@id="product-overview-status"]');
   // locator-helper: attr_combo
@@ -68,6 +80,19 @@ export class ProductPage extends BasePage {
     await this.page.goto('/menu-management-gc3/products/new', { waitUntil: 'domcontentloaded' });
     await this.productNameInput.waitFor({ state: 'visible', timeout: 15000 });
     return this;
+  }
+
+  /**
+   * Opens a gc3ui popover dropdown via its input and selects the item matching label.
+   * Items use div.gc3ui-popover-item-content elements (not role="option").
+   */
+  private async selectPopoverOption(inputLocator: Locator, label: string): Promise<void> {
+    await inputLocator.scrollIntoViewIfNeeded();
+    await inputLocator.click();
+    const option = this.page.locator(`//div[contains(@class,"gc3ui-popover-item-content")][normalize-space(.)="${label}"]`);
+    await option.waitFor({ state: 'visible', timeout: 8000 });
+    await option.click();
+    await this.page.waitForTimeout(300);
   }
 
   /**
@@ -106,6 +131,18 @@ export class ProductPage extends BasePage {
       await this.nutritionalInfoTab.click();
       await this.caloriesInput.waitFor({ state: 'visible', timeout: 10000 });
       await this.typeIntoField(this.caloriesInput, details.calories);
+    }
+
+    if (details.classification) {
+      await this.selectPopoverOption(this.classificationsInput, details.classification);
+    }
+
+    if (details.allergen) {
+      await this.selectPopoverOption(this.allergensInput, details.allergen);
+    }
+
+    if (details.tag) {
+      await this.selectPopoverOption(this.tagsInput, details.tag);
     }
 
     if (details.statusActive === false) {

@@ -4,5 +4,8 @@
   "extendedPrice": "15",
   "defaultCalories": "250",
   "descriptionPrefix": "Automated test description",
-  "externalIdPrefix": "EXT"
+  "externalIdPrefix": "EXT",
+  "classification": "Gluten Free",
+  "allergen": "Celery",
+  "tag": "COOL Manoushe"
 }

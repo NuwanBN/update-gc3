@@ -20,6 +20,9 @@ Verifies that an authenticated user can create a new product under Menu Manageme
 - [ ] AC-3: User can create a product with nutritional calories filled
 - [ ] AC-4: User can create a product with status set to inactive
 - [ ] AC-5: User can create a product with Price Excludes Tax selected
+- [ ] AC-6: User can create a product with a nutritional classification selected
+- [ ] AC-7: User can create a product with an allergen selected
+- [ ] AC-8: User can create a product with a tag selected
 
 # Scenarios
 
@@ -58,6 +61,27 @@ Verifies that an authenticated user can create a new product under Menu Manageme
 - User submits the form
 - The product is created successfully and appears in the list
 
+## Nutritional Classification [AC-6]
+
+- User is logged in and opens the create product form
+- User fills mandatory fields and opens the Classifications dropdown in Nutritional Info
+- User selects "Gluten Free" from the list
+- User submits the form and the product is created successfully
+
+## Allergen [AC-7]
+
+- User is logged in and opens the create product form
+- User fills mandatory fields and opens the Allergens dropdown in Nutritional Info
+- User selects "Celery" from the list
+- User submits the form and the product is created successfully
+
+## Tag [AC-8]
+
+- User is logged in and opens the create product form
+- User fills mandatory fields and opens the Tags dropdown
+- User selects a tag from the list
+- User submits the form and the product is created successfully
+
 # Out of Scope
 
 - Category selection (dropdown options unavailable in test env)
@@ -70,3 +94,4 @@ Verifies that an authenticated user can create a new product under Menu Manageme
 - 2026-06-16: created for product creation automation (user request)
 - 2026-06-16: added AC-2 extended overview and AC-3 nutritional info coverage
 - 2026-06-16: added AC-4 inactive status and AC-5 Price Excludes Tax coverage
+- 2026-06-16: added AC-6 classification, AC-7 allergen, AC-8 tag coverage

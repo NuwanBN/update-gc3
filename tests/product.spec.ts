@@ -99,4 +99,58 @@ test.describe('product', () => {
     await productPage.verify_productCreated(name);
   });
 
+  // scenario: Nutritional Classification
+  test('[AC-6] should create a product with a nutritional classification selected', async ({ productPage }) => {
+    const ts = Date.now();
+    const name = `Auto Class Product ${ts}`;
+    const displayName = `Auto Class Display ${ts}`;
+
+    await productPage.step_navigate();
+    await productPage.step_openCreateForm();
+    await productPage.step_fillProductDetails({
+      name,
+      displayName,
+      price: expected.defaultPrice,
+      classification: expected.classification,
+    });
+    await productPage.step_submitProduct();
+    await productPage.verify_productCreated(name);
+  });
+
+  // scenario: Allergen
+  test('[AC-7] should create a product with an allergen selected', async ({ productPage }) => {
+    const ts = Date.now();
+    const name = `Auto Allergen Product ${ts}`;
+    const displayName = `Auto Allergen Display ${ts}`;
+
+    await productPage.step_navigate();
+    await productPage.step_openCreateForm();
+    await productPage.step_fillProductDetails({
+      name,
+      displayName,
+      price: expected.defaultPrice,
+      allergen: expected.allergen,
+    });
+    await productPage.step_submitProduct();
+    await productPage.verify_productCreated(name);
+  });
+
+  // scenario: Tag
+  test('[AC-8] should create a product with a tag selected', async ({ productPage }) => {
+    const ts = Date.now();
+    const name = `Auto Tag Product ${ts}`;
+    const displayName = `Auto Tag Display ${ts}`;
+
+    await productPage.step_navigate();
+    await productPage.step_openCreateForm();
+    await productPage.step_fillProductDetails({
+      name,
+      displayName,
+      price: expected.defaultPrice,
+      tag: expected.tag,
+    });
+    await productPage.step_submitProduct();
+    await productPage.verify_productCreated(name);
+  });
+
 });
